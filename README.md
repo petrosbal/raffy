@@ -46,8 +46,19 @@ Key decisions worth knowing:
 
 **Find-or-create for books.** When a user adds a book, the backend checks if it already exists by `googleBooksId`. If it does, it's reused. One row per book, shared across all users.
 
----
+### Database Schema 
+<!--suppress CheckImageSize -->
+<img src="docs/db_schema.png" width="650" alt="Database Schema"/>
 
+`user_books` is the core of the schema. Rather than linking sessions directly
+to books, each `session` belongs to a `user_book`, which is the record of a specific `user`
+having a specific `book` (their "personal copy" of it). 
+
+This keeps user context implicit throughout the
+session layer and lets the schema carry per-reading state like
+status, start date, finish date and rating without polluting either the
+`user` or `book` tables.
+---
 ## API
 
 All endpoints except `/auth/*` and `/api-ui` require a Bearer token.
@@ -75,7 +86,6 @@ Alternatively, browse the [published documentation](https://documenter.getpostma
 
 
 ---
-
 ## Running Locally
 
 **Prerequisites:** Java 21+, MariaDB 10.6+, Maven
