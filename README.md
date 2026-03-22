@@ -58,6 +58,7 @@ This keeps user context implicit throughout the
 session layer and lets the schema carry per-reading state like
 status, start date, finish date and rating without polluting either the
 `user` or `book` tables.
+
 ---
 ## API
 
