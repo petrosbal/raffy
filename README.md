@@ -40,11 +40,14 @@ com.petros.raffy
 
 Key decisions worth knowing:
 
-**Single insights endpoint.** `GET /insights` returns all analytics in one call. This was a deliberate choice: all five computations share the same two database queries (sessions + user books). Splitting into five endpoints would multiply that to ten queries with no benefit, since all insights appear on the same page.
+ - **Single insights endpoint**
+   - `GET /insights` returns all analytics in one call. This was a deliberate choice: all five computations share the same two database queries (sessions + user books). Splitting into five endpoints would multiply that to ten queries with no benefit, since all insights appear on the same page.
 
-**Book pace vs total momentum.** Book pace is computed per book and lives in `UserBookResponse`. Total and monthly momentum are user-level stats and live in `InsightsResponse`. They answer different questions.
+ - **Book pace vs total momentum**
+   - Book pace is computed per book and lives in `UserBookResponse`. Total and monthly momentum are user-level stats and live in `InsightsResponse`. They answer different questions.
 
-**Find-or-create for books.** When a user adds a book, the backend checks if it already exists by `googleBooksId`. If it does, it's reused. One row per book, shared across all users.
+ - **Find-or-create for books**
+   - When a user adds a book, the backend checks if it already exists by `googleBooksId`. If it does, it's reused. One row per book, shared across all users.
 
 ### Database Schema 
 <!--suppress CheckImageSize -->
@@ -58,6 +61,7 @@ This keeps user context implicit throughout the
 session layer and lets the schema carry per-reading state like
 status, start date, finish date and rating without polluting either the
 `user` or `book` tables.
+
 ---
 ## API
 

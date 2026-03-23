@@ -16,8 +16,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookSearchService {
 
-    private final RestClient restClient = RestClient.create();
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final RestClient restClient;
+    private final ObjectMapper objectMapper;
 
     // the API key is kept server-side, no frontend exposition
     @Value("${raffy.google-books.api-key}")
