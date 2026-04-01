@@ -14,7 +14,7 @@ This repository currently contains the complete backend.
 
 | Layer          | Technology              | Notes                                                                         |
 |----------------|-------------------------|-------------------------------------------------------------------------------|
-| Backend        | Spring Boot 4           | Industry standard for Java REST APIs. Clean structure, strong ecosystem.      |
+| Backend        | Spring Boot             | Industry standard for Java REST APIs. Clean structure, strong ecosystem.      |
 | Security       | Spring Security + JWT   | Stateless auth. No sessions, no cookies. Every request carries its own token. |
 | Database       | MariaDB + JPA/Hibernate | Relational data with lazy loading. ORM keeps the code clean.                  |
 | API Docs       | SpringDoc / Swagger UI  | Auto-generated, interactive docs. Available at `/api-ui`.                     |
