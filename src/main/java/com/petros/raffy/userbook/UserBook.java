@@ -58,4 +58,7 @@ public class UserBook {
     @Column(name = "rating")
     private Integer rating;
 
+    @Column(nullable = false, columnDefinition = "boolean not null default false")
+    private boolean isBackfilled = false;
+
 }

@@ -3,6 +3,7 @@
 package com.petros.raffy.userbook;
 
 import com.petros.raffy.user.User;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.UUID;
 
 public interface UserBookRepository extends JpaRepository<UserBook, UUID> {
 
+    @EntityGraph(attributePaths = "book")
     List<UserBook> findByUser(User user);
 
     // available but currently unused, kept for future filtering

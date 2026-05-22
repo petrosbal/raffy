@@ -39,10 +39,22 @@ public class UserBookService {
             throw new IllegalArgumentException("Book already in your library");
         }
 
+        ReadingStatus status = request.getStatus() != null ? request.getStatus() : ReadingStatus.WANT_TO_READ;
+
+        if (request.getRating() != null && (request.getRating() < 1 || request.getRating() > 10)) {
+            throw new IllegalArgumentException("Rating must be between 1 and 10");
+        }
+
         UserBook userBook = UserBook.builder()
                 .user(user)
                 .book(book)
-                .status(ReadingStatus.WANT_TO_READ)
+                .status(status)
+                .startedAt(status == ReadingStatus.READING ? LocalDate.now() : null)
+                .finishedAt(status == ReadingStatus.FINISHED
+                        ? (request.getFinishedAt() != null ? request.getFinishedAt() : LocalDate.now())
+                        : null)
+                .rating(status == ReadingStatus.FINISHED ? request.getRating() : null)
+                .isBackfilled(request.isBackfilled())
                 .build();
 
         return toResponse(userBookRepository.save(userBook), 0, List.of());
@@ -130,7 +142,7 @@ public class UserBookService {
         int remaining = pageCount - pagesRead;
         if (remaining <= 0) return LocalDate.now();
 
-        long daysToFinish = Math.round(remaining / pace);
+        long daysToFinish = (long) Math.ceil(remaining / pace);
         return LocalDate.now().plusDays(daysToFinish);
     }
 
@@ -157,6 +169,7 @@ public class UserBookService {
                 .finishedAt(userBook.getFinishedAt())
                 .rating(userBook.getRating())
                 .pagesRead(pagesRead)
+                .isBackfilled(userBook.isBackfilled())
                 .bookPace(bookPace)
                 .predictedFinishDate(predictedFinishDate)
                 .build();
@@ -166,8 +179,10 @@ public class UserBookService {
         return bookRepository.findByGoogleBooksId(request.getGoogleBooksId())
                 .orElseGet(() -> bookRepository.save(Book.builder()
                         .googleBooksId(request.getGoogleBooksId())
-                        .title(request.getTitle())
-                        .author(request.getAuthor())
+                        .title(request.getTitle() == null || request.getTitle().isBlank()
+                                ? "Untitled book" : request.getTitle())
+                        .author(request.getAuthor() == null || request.getAuthor().isBlank()
+                                ? "Unknown author" : request.getAuthor())
                         .coverUrl(request.getCoverUrl())
                         .pageCount(request.getPageCount())
                         .genre(request.getGenre())

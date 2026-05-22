@@ -4,6 +4,7 @@
 
 package com.petros.raffy.userbook;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 
@@ -25,6 +26,8 @@ public class UserBookResponse {
     private LocalDate finishedAt;
     private Integer rating;
     private Integer pagesRead;
+    @JsonProperty("isBackfilled")
+    private boolean isBackfilled;
 
     // only populated for READING books.
     // they are null for WANT_TO_READ and FINISHED books.
