@@ -52,6 +52,7 @@ public class ReadingSessionService {
     }
 
     // journal is sorted newest first in memory since I already have all sessions loaded
+    @Transactional(readOnly = true)
     public List<ReadingSessionResponse> getJournal(User user) {
         return readingSessionRepository.findByUserBook_User_Id(user.getId())
                 .stream()

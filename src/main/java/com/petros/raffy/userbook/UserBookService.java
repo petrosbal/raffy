@@ -49,6 +49,7 @@ public class UserBookService {
     }
 
 
+    @Transactional(readOnly = true)
     public List<UserBookResponse> getLibrary(User user) {
         List<UserBook> userBooks = userBookRepository.findByUser(user);
 

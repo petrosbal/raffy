@@ -31,6 +31,7 @@ public class InsightsService {
     // Single endpoint by design — all insights share 2 DB queries (sessions + user books).
     // Splitting into 5 endpoints would multiply that to 10 queries for no benefit,
     // since all insights are displayed together on one page.
+    @Transactional(readOnly = true)
     public InsightsResponse getInsights(User user) {
         List<ReadingSession> allSessions = readingSessionRepository.findByUserBook_User_Id(user.getId());
         List<UserBook> allUserBooks = userBookRepository.findByUser(user);
