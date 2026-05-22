@@ -16,10 +16,10 @@ This repository currently contains the complete backend.
 |----------------|-------------------------|-------------------------------------------------------------------------------|
 | Backend        | Spring Boot             | Industry standard for Java REST APIs. Clean structure, strong ecosystem.      |
 | Security       | Spring Security + JWT   | Stateless auth. No sessions, no cookies. Every request carries its own token. |
-| Database       | MariaDB + JPA/Hibernate | Relational data with lazy loading. ORM keeps the code clean.                  |
+| Database       | PostgreSQL + JPA/Hibernate | Relational data with lazy loading. ORM keeps the code clean.               |
 | API Docs       | SpringDoc / Swagger UI  | Auto-generated, interactive docs. Available at `/api-ui`.                     |
 | Build          | Maven                   | Standard Java build tool.                                                     |
-| Frontend (WIP) | React + TailwindCss     | Component-driven UI with a clean design system.                               |
+| Frontend (WIP) | React + Custom CSS      | Component-driven UI. Vite + React 19 + TypeScript, TanStack Query, React Router. |
 
 ---
 
@@ -92,29 +92,49 @@ Alternatively, browse the [published documentation](https://documenter.getpostma
 ---
 ## Running Locally
 
-**Prerequisites:** Java 21+, MariaDB 10.6+, Maven
+**Prerequisites:** Java 21+, Docker, Node.js 18+
 
 1. Clone the repository:
     ```bash
     git clone https://github.com/petrosbal/raffy.git
     cd raffy
     ```
-2. Copy the example properties file and fill in your values:
+
+2. Start the database:
+    ```bash
+    docker compose up -d
+    ```
+    This spins up a PostgreSQL 16 container on port 5432.
+
+    Data is persisted in a Docker volume (`raffy_db`) so it survives container restarts.
+
+
+3. Set up the config file:
     ```bash
     cp src/main/resources/application.properties.example src/main/resources/application.properties
     ```
+    The database credentials are already filled in. Just set two values:
 
-3. Create the database:
-    ```sql
-    CREATE DATABASE raffy;
-    ```
+    - `raffy.jwt.secret` -- a Base64-encoded secret. Generate one with:
+        ```bash
+        openssl rand -base64 32
+        ```
+    - `raffy.google-books.api-key` -- required for `/discover`. Get one from [Google Cloud Console](https://console.cloud.google.com/). If you leave this empty everything but Discover will work.
 
-4. Run:
+4. Start the backend:
     ```bash
     ./mvnw spring-boot:run
     ```
 
-The API starts on `http://localhost:8080`. Swagger UI is at `http://localhost:8080/api-ui`.
+5. Start the frontend:
+    ```bash
+    cd frontend
+    npm install
+    npm run dev
+    ```
+
+The API runs at `http://localhost:8080`. Swagger UI is at `http://localhost:8080/api-ui`.
+The frontend runs at `http://localhost:5173` and proxies all API calls to the backend automatically.
 
 ---
 
@@ -124,5 +144,5 @@ The API starts on `http://localhost:8080`. Swagger UI is at `http://localhost:80
 |-----------|-------------|
 | Backend   | Complete    |
 | Frontend  | In progress |
-| Docker    | Planned     |
+| Docker    | In progress |
 | CI/CD     | Planned     |

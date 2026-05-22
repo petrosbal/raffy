@@ -1,8 +1,8 @@
 spring.application.name=raffy
 
-spring.datasource.url=jdbc:mariadb://localhost/raffy
-spring.datasource.username=
-spring.datasource.password=
+spring.datasource.url=jdbc:postgresql://localhost:5432/raffy
+spring.datasource.username=raffy
+spring.datasource.password=raffy
 
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
@@ -22,5 +22,4 @@ raffy.google-books.api-key=
 
 logging.level.org.hibernate.tool.schema.internal.ExceptionHandlerLoggedImpl=ERROR
 logging.level.org.hibernate.orm.core=ERROR
-logging.level.org.mariadb.jdbc.message.server.ErrorPacket=ERROR
 logging.level.org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer=ERROR
