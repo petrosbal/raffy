@@ -94,6 +94,21 @@ Alternatively, browse the [published documentation](https://documenter.getpostma
 
 **Prerequisites:** Java 21+, Docker, Node.js 18+
 
+<details>
+<summary><strong>Installing Docker</strong></summary>
+
+**Linux (Ubuntu/Debian):**
+```bash
+sudo apt update && sudo apt install -y docker.io docker-compose
+sudo systemctl enable --now docker
+sudo usermod -aG docker $USER   # log out and back in after this
+```
+
+**Windows:**
+Download and install [Docker Desktop for Windows](https://www.docker.com/products/docker-desktop/). It includes Docker Compose. WSL 2 backend is recommended.
+
+</details>
+
 1. Clone the repository:
     ```bash
     git clone https://github.com/petrosbal/raffy.git
