@@ -48,6 +48,9 @@ export function BookDetailOverlay({ book, onClose, onToast, onLogProgress }: Boo
         queryClient.invalidateQueries({ queryKey: queryKeys.insights }),
       ]);
     },
+    onError: () => {
+      onToast("Failed to update status. Please try again.");
+    },
   });
 
   const removeMutation = useMutation({
@@ -92,7 +95,7 @@ export function BookDetailOverlay({ book, onClose, onToast, onLogProgress }: Boo
                   onChange={() => { if (currentStatus !== status) statusMutation.mutate(status); }}
                   disabled={statusMutation.isPending}
                 />
-                {statusLabels[status]}
+                <span className="status-radio-label">{statusLabels[status]}</span>
               </label>
             ))}
           </fieldset>

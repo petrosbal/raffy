@@ -942,6 +942,20 @@ button {
   border-right: 0;
 }
 
+.status-radio-option:not(.active):hover {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.status-radio-label {
+  display: inline-block;
+  transition: transform 0.15s ease;
+}
+
+.status-radio-option:not(.active):hover .status-radio-label {
+  transform: scale(1.08);
+}
+
 .status-radio-option.active {
   background: var(--color-accent);
   color: #fff;
