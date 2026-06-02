@@ -4,7 +4,7 @@ import { useState } from "react";
 import { libraryApi } from "../api/library";
 import { queryKeys } from "../api/queryKeys";
 import { sessionsApi } from "../api/sessions";
-import type { UserBook } from "../api/types";
+import type { ReadingStatus, UserBook } from "../api/types";
 import { progressPercent, ratingLabel } from "../domain/reading";
 import { BookCover } from "./BookCover";
 
@@ -12,9 +12,10 @@ type BookDetailOverlayProps = {
   book: UserBook;
   onClose: () => void;
   onToast: (message: string) => void;
+  onLogProgress: () => void;
 };
 
-export function BookDetailOverlay({ book, onClose, onToast }: BookDetailOverlayProps) {
+export function BookDetailOverlay({ book, onClose, onToast, onLogProgress }: BookDetailOverlayProps) {
   const queryClient = useQueryClient();
   const [confirming, setConfirming] = useState(false);
   const journalQuery = useQuery({
@@ -38,7 +39,7 @@ export function BookDetailOverlay({ book, onClose, onToast }: BookDetailOverlayP
   });
 
   const statusMutation = useMutation({
-    mutationFn: (status: string) => libraryApi.update(book.id, { status }),
+    mutationFn: (status: ReadingStatus) => libraryApi.update(book.id, { status }),
     onSuccess: async () => {
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: queryKeys.library }),
@@ -150,6 +151,11 @@ export function BookDetailOverlay({ book, onClose, onToast }: BookDetailOverlayP
             <div className="section-title">
               <span>Reading sessions</span>
               <strong>{sessions.length}</strong>
+              {book.status === "READING" && (
+                <button className="primary-button" type="button" onClick={onLogProgress}>
+                  Log progress
+                </button>
+              )}
             </div>
 
             {sessions.length === 0 && (
