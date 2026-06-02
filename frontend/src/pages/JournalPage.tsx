@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Trash2 } from "lucide-react";
+import { useEffect, useState } from "react";
 import { queryKeys } from "../api/queryKeys";
 import { sessionsApi } from "../api/sessions";
 import type { ReadingSession, UserBook } from "../api/types";
@@ -11,6 +12,15 @@ type JournalPageProps = {
 
 export function JournalPage({ onOpenBook: _onOpenBook }: JournalPageProps) {
   const queryClient = useQueryClient();
+  const [confirmingId, setConfirmingId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!confirmingId) return;
+    function handleClickOutside() { setConfirmingId(null); }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [confirmingId]);
+
   const journalQuery = useQuery({
     queryKey: queryKeys.journal,
     queryFn: sessionsApi.listJournal,
@@ -59,21 +69,43 @@ export function JournalPage({ onOpenBook: _onOpenBook }: JournalPageProps) {
                     size="sm"
                   />
                   <div className="session-body">
-                    <div className="session-topline">
-                      <strong>{session.bookTitle}</strong>
-                      <span>{formatDate(session.sessionDate, "day")}</span>
-                    </div>
+                    <strong>{session.bookTitle}</strong>
                     <div className="session-pages">{session.pagesRead} pages</div>
                     {session.notes && <p>{session.notes}</p>}
                   </div>
-                  <button
-                    className="icon-button session-delete"
-                    type="button"
-                    aria-label="Delete session"
-                    onClick={() => deleteMutation.mutate(session.id)}
-                  >
-                    <Trash2 size={16} />
-                  </button>
+                  <div className="session-actions">
+                    {confirmingId === session.id ? (
+                      <div className="session-confirm" onMouseDown={(e) => e.stopPropagation()}>
+                        <button
+                          className="secondary-button tiny"
+                          type="button"
+                          onClick={() => setConfirmingId(null)}
+                          disabled={deleteMutation.isPending}
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          className="danger-button tiny"
+                          type="button"
+                          onClick={() => deleteMutation.mutate(session.id)}
+                          disabled={deleteMutation.isPending}
+                        >
+                          <Trash2 size={14} />
+                          Delete
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        className="icon-button session-delete"
+                        type="button"
+                        aria-label="Delete session"
+                        onClick={() => setConfirmingId(session.id)}
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    )}
+                    <span className="session-date">{formatDate(session.sessionDate, "day")}</span>
+                  </div>
                 </article>
               ))}
             </div>

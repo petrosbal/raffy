@@ -1201,8 +1201,8 @@ button {
 }
 
 .session-card {
-  position: relative;
   display: flex;
+  align-items: flex-start;
   gap: 14px;
   padding: 16px;
   border: 1px solid var(--color-border);
@@ -1214,7 +1214,6 @@ button {
 .session-body {
   flex: 1;
   min-width: 0;
-  padding-right: 32px;
 }
 
 .session-topline {
@@ -1246,15 +1245,32 @@ button {
   line-height: 1.5;
 }
 
+.session-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex: 0 0 auto;
+  align-self: stretch;
+}
+
 .session-delete {
-  position: absolute;
-  top: 12px;
-  right: 12px;
   opacity: 0;
 }
 
 .session-card:hover .session-delete {
   opacity: 1;
+}
+
+.session-confirm {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.session-date {
+  color: var(--color-muted);
+  font-size: 12px;
 }
 
 .toast {
