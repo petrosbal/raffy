@@ -85,7 +85,7 @@ export function AuthPage() {
               <input
                 value={displayName}
                 onChange={(event) => setDisplayName(event.target.value)}
-                placeholder="e.g. Petros"
+                placeholder="Your name"
               />
             </label>
           )}
