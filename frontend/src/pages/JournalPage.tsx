@@ -8,9 +8,10 @@ import { BookCover } from "../components/BookCover";
 
 type JournalPageProps = {
   onOpenBook: (book: UserBook) => void;
+  onToast: (message: string) => void;
 };
 
-export function JournalPage({ onOpenBook: _onOpenBook }: JournalPageProps) {
+export function JournalPage({ onOpenBook: _onOpenBook, onToast }: JournalPageProps) {
   const queryClient = useQueryClient();
   const [confirmingId, setConfirmingId] = useState<string | null>(null);
 
@@ -34,6 +35,10 @@ export function JournalPage({ onOpenBook: _onOpenBook }: JournalPageProps) {
         queryClient.invalidateQueries({ queryKey: queryKeys.library }),
         queryClient.invalidateQueries({ queryKey: queryKeys.insights }),
       ]);
+    },
+    onError: () => {
+      setConfirmingId(null);
+      onToast("Failed to delete session. Please try again.");
     },
   });
 
