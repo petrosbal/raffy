@@ -1,5 +1,5 @@
 import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react/dist";
+import react from "@vitejs/plugin-react";
 
 const backend = "http://localhost:8080";
 
