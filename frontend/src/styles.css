@@ -1307,7 +1307,8 @@ button {
 }
 
 .session-delete {
-  opacity: 0;
+  opacity: 0.6;
+  transition: opacity 0.15s;
 }
 
 .session-card:hover .session-delete {
