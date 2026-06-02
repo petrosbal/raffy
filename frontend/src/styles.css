@@ -1116,9 +1116,16 @@ button {
 
 .detail-remove-row {
   display: flex;
+  align-items: center;
   justify-content: flex-end;
   gap: 8px;
   margin-top: 24px;
+}
+
+.remove-warning {
+  font-size: 12px;
+  color: var(--color-error);
+  margin-right: auto;
 }
 
 .danger-button,

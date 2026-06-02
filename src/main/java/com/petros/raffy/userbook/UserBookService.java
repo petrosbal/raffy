@@ -115,6 +115,7 @@ public class UserBookService {
 
     public void removeBook(User user, UUID userBookId) {
         UserBook userBook = getUserBookOrThrow(user, userBookId);
+        readingSessionRepository.deleteByUserBook(userBook);
         userBookRepository.delete(userBook);
     }
 

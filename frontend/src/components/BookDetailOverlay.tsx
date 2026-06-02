@@ -172,6 +172,7 @@ export function BookDetailOverlay({ book, onClose, onToast }: BookDetailOverlayP
           <div className="detail-remove-row">
             {confirming ? (
               <>
+                <span className="remove-warning">This will also delete all reading sessions for this book.</span>
                 <button
                   className="secondary-button"
                   type="button"

@@ -19,4 +19,6 @@ public interface ReadingSessionRepository extends JpaRepository<ReadingSession, 
     // ^this traversal (ReadingSession -> UserBook -> User -> id) is used by both
     // the journal endpoint and the insights engine. seems comfortable
 
+    void deleteByUserBook(UserBook userBook);
+
 }
