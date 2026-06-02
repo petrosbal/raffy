@@ -902,6 +902,48 @@ button {
   padding: 24px 28px 28px;
 }
 
+.status-radio-group {
+  display: flex;
+  border: 0;
+  padding: 0;
+  margin: 0 0 24px;
+  gap: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+.status-radio-option {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-muted);
+  cursor: pointer;
+  background: transparent;
+  transition: background 0.15s ease, color 0.15s ease;
+  border-right: 1px solid var(--color-border);
+}
+
+.status-radio-option:last-child {
+  border-right: 0;
+}
+
+.status-radio-option.active {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.status-radio-option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
 .detail-card {
   margin-bottom: 24px;
   padding: 18px 20px;
