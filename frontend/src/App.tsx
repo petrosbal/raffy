@@ -73,7 +73,7 @@ function AppShell({ page }: AppShellProps) {
           onOpenBook={setSelectedBook}
         />
       ) : (
-        <JournalPage onOpenBook={setSelectedBook} onToast={showToast} />
+        <JournalPage onOpenBook={setSelectedBook} onToast={showToast} onLogProgress={() => setLogOpen(true)} />
       )}
 
       {discoverOpen && (

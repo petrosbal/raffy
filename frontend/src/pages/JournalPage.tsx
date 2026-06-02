@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Trash2 } from "lucide-react";
+import { Trash2, BookOpen } from "lucide-react";
 import { useEffect, useState } from "react";
 import { queryKeys } from "../api/queryKeys";
 import { sessionsApi } from "../api/sessions";
@@ -9,9 +9,10 @@ import { BookCover } from "../components/BookCover";
 type JournalPageProps = {
   onOpenBook: (book: UserBook) => void;
   onToast: (message: string) => void;
+  onLogProgress: () => void;
 };
 
-export function JournalPage({ onOpenBook: _onOpenBook, onToast }: JournalPageProps) {
+export function JournalPage({ onOpenBook: _onOpenBook, onToast, onLogProgress }: JournalPageProps) {
   const queryClient = useQueryClient();
   const [confirmingId, setConfirmingId] = useState<string | null>(null);
 
@@ -51,6 +52,12 @@ export function JournalPage({ onOpenBook: _onOpenBook, onToast }: JournalPagePro
         <div>
           <h1>Journal</h1>
           <p>{sessions.length} logged reading sessions</p>
+        </div>
+        <div className="toolbar-actions">
+          <button className="primary-button compact" type="button" onClick={onLogProgress}>
+            <BookOpen size={16} />
+            Log progress
+          </button>
         </div>
       </div>
 
