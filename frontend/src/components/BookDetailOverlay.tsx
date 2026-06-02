@@ -5,7 +5,7 @@ import { libraryApi } from "../api/library";
 import { queryKeys } from "../api/queryKeys";
 import { sessionsApi } from "../api/sessions";
 import type { ReadingStatus, UserBook } from "../api/types";
-import { progressPercent, ratingLabel } from "../domain/reading";
+import { progressPercent, ratingLabel, statusLabels } from "../domain/reading";
 import { BookCover } from "./BookCover";
 
 type BookDetailOverlayProps = {
@@ -18,6 +18,7 @@ type BookDetailOverlayProps = {
 export function BookDetailOverlay({ book, onClose, onToast, onLogProgress }: BookDetailOverlayProps) {
   const queryClient = useQueryClient();
   const [confirming, setConfirming] = useState(false);
+  const [currentStatus, setCurrentStatus] = useState<ReadingStatus>(book.status);
   const journalQuery = useQuery({
     queryKey: queryKeys.journal,
     queryFn: sessionsApi.listJournal,
@@ -40,7 +41,8 @@ export function BookDetailOverlay({ book, onClose, onToast, onLogProgress }: Boo
 
   const statusMutation = useMutation({
     mutationFn: (status: ReadingStatus) => libraryApi.update(book.id, { status }),
-    onSuccess: async () => {
+    onSuccess: async (_, status) => {
+      setCurrentStatus(status);
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: queryKeys.library }),
         queryClient.invalidateQueries({ queryKey: queryKeys.insights }),
@@ -71,7 +73,7 @@ export function BookDetailOverlay({ book, onClose, onToast, onLogProgress }: Boo
           <div className="detail-heading">
             <h2>{book.title}</h2>
             <p>{book.author || "Unknown author"}</p>
-            {book.status === "FINISHED" && <strong>{ratingLabel(book.rating)}</strong>}
+            {currentStatus === "FINISHED" && <strong>{ratingLabel(book.rating)}</strong>}
           </div>
           <button className="detail-close" type="button" onClick={onClose} aria-label="Close">
             <X size={18} />
@@ -79,7 +81,23 @@ export function BookDetailOverlay({ book, onClose, onToast, onLogProgress }: Boo
         </div>
 
         <div className="detail-body">
-          {book.status === "READING" && (
+          <fieldset className="status-radio-group" aria-label="Book status">
+            {(["WANT_TO_READ", "READING", "FINISHED"] as ReadingStatus[]).map((status) => (
+              <label key={status} className={`status-radio-option${currentStatus === status ? " active" : ""}`}>
+                <input
+                  type="radio"
+                  name={`book-status-${book.id}`}
+                  value={status}
+                  checked={currentStatus === status}
+                  onChange={() => { if (currentStatus !== status) statusMutation.mutate(status); }}
+                  disabled={statusMutation.isPending}
+                />
+                {statusLabels[status]}
+              </label>
+            ))}
+          </fieldset>
+
+          {currentStatus === "READING" && (
             <section className="detail-card">
               <div className="progress-meta">
                 <span>Progress</span>
@@ -105,22 +123,7 @@ export function BookDetailOverlay({ book, onClose, onToast, onLogProgress }: Boo
             </section>
           )}
 
-          {book.status === "WANT_TO_READ" && (
-            <section className="detail-card status-line">
-              <span />
-              <p>On your reading list, not started yet.</p>
-              <button
-                className="primary-button"
-                type="button"
-                onClick={() => statusMutation.mutate("READING")}
-                disabled={statusMutation.isPending}
-              >
-                Start reading
-              </button>
-            </section>
-          )}
-
-          {book.status === "FINISHED" && (
+          {currentStatus === "FINISHED" && (
             <section className="detail-card">
               <div className="finished-row">
                 <div>
@@ -151,7 +154,7 @@ export function BookDetailOverlay({ book, onClose, onToast, onLogProgress }: Boo
             <div className="section-title">
               <span>Reading sessions</span>
               <strong>{sessions.length}</strong>
-              {book.status === "READING" && (
+              {currentStatus === "READING" && (
                 <button className="primary-button" type="button" onClick={onLogProgress}>
                   Log progress
                 </button>

@@ -95,6 +95,13 @@ public class UserBookService {
             if (newStatus == ReadingStatus.FINISHED && oldStatus != ReadingStatus.FINISHED) {
                 userBook.setFinishedAt(LocalDate.now());
             }
+            if (newStatus == ReadingStatus.WANT_TO_READ) {
+                userBook.setStartedAt(null);
+            }
+            if (newStatus == ReadingStatus.READING && oldStatus == ReadingStatus.FINISHED) {
+                userBook.setFinishedAt(null);
+                userBook.setRating(null);
+            }
         }
 
         if (request.getRating() != null) {
