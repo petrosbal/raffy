@@ -99,13 +99,29 @@ export function BookDetailOverlay({ book, onClose, onToast, onLogProgress }: Boo
 
           {currentStatus === "READING" && (
             <section className="detail-card">
-              <div className="progress-meta">
-                <span>Progress</span>
-                <strong>{pct}%</strong>
-              </div>
-              <div className="progress-track tall">
-                <div className="progress-fill" style={{ width: `${pct}%` }} />
-              </div>
+              {pct >= 100 ? (
+                <div className="finished-prompt" role="alert">
+                  <span>You have read all the pages. Mark this book as finished?</span>
+                  <button
+                    className="primary-button tiny"
+                    type="button"
+                    onClick={() => statusMutation.mutate("FINISHED")}
+                    disabled={statusMutation.isPending}
+                  >
+                    Mark as finished
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <div className="progress-meta">
+                    <span>Progress</span>
+                    <strong>{pct}%</strong>
+                  </div>
+                  <div className="progress-track tall">
+                    <div className="progress-fill" style={{ width: `${pct}%` }} />
+                  </div>
+                </>
+              )}
               <div className="detail-stats">
                 <div>
                   <span>Pages read</span>

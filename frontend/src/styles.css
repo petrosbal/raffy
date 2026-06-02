@@ -533,6 +533,16 @@ button {
   gap: 6px;
 }
 
+.finished-prompt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  font-size: 14px;
+  color: var(--color-text);
+}
+
 .progress-meta,
 .book-submeta {
   display: flex;
