@@ -53,6 +53,7 @@ type AppShellProps = {
 function AppShell({ page }: AppShellProps) {
   const [discoverOpen, setDiscoverOpen] = useState(false);
   const [logOpen, setLogOpen] = useState(false);
+  const [logBookId, setLogBookId] = useState<string | undefined>(undefined);
   const [selectedBook, setSelectedBook] = useState<UserBook | null>(null);
   const [toast, setToast] = useState<string | null>(null);
 
@@ -84,8 +85,9 @@ function AppShell({ page }: AppShellProps) {
 
       {logOpen && (
         <LogProgressModal
-          onClose={() => setLogOpen(false)}
+          onClose={() => { setLogOpen(false); setLogBookId(undefined); }}
           onToast={showToast}
+          initialBookId={logBookId}
         />
       )}
 
@@ -94,6 +96,11 @@ function AppShell({ page }: AppShellProps) {
           book={selectedBook}
           onClose={() => setSelectedBook(null)}
           onToast={showToast}
+          onLogProgress={() => {
+            setLogBookId(selectedBook.id);
+            setLogOpen(true);
+            setSelectedBook(null);
+          }}
         />
       )}
 

@@ -10,9 +10,10 @@ import { computePagesThisSession, todayIsoDate } from "../domain/reading";
 type LogProgressModalProps = {
   onClose: () => void;
   onToast: (message: string) => void;
+  initialBookId?: string;
 };
 
-export function LogProgressModal({ onClose, onToast }: LogProgressModalProps) {
+export function LogProgressModal({ onClose, onToast, initialBookId }: LogProgressModalProps) {
   const queryClient = useQueryClient();
   const libraryQuery = useQuery({
     queryKey: queryKeys.library,
@@ -22,7 +23,7 @@ export function LogProgressModal({ onClose, onToast }: LogProgressModalProps) {
     () => (libraryQuery.data ?? []).filter((book) => book.status === "READING"),
     [libraryQuery.data],
   );
-  const [bookId, setBookId] = useState("");
+  const [bookId, setBookId] = useState(initialBookId ?? "");
   const selectedBook = readingBooks.find((book) => book.id === bookId) ?? readingBooks[0];
   const [stoppedAtPage, setStoppedAtPage] = useState("");
   const [sessionDate, setSessionDate] = useState(todayIsoDate());
