@@ -5,8 +5,7 @@ It tracks your books, logs reading sessions, and derives analytics
 (pace, momentum, streaks, genre patterns, book leaderboard) entirely from 
 raw session data.
 
-The frontend, containerization and CI/CD is in active development. 
-This repository currently contains the complete backend.
+The backend is complete. The frontend is functional and ships the full reading tracker UI. Containerization and CI/CD are planned.
 
 ---
 
@@ -19,7 +18,7 @@ This repository currently contains the complete backend.
 | Database       | PostgreSQL + JPA/Hibernate | Relational data with lazy loading. ORM keeps the code clean.               |
 | API Docs       | SpringDoc / Swagger UI  | Auto-generated, interactive docs. Available at `/api-ui`.                     |
 | Build          | Maven                   | Standard Java build tool.                                                     |
-| Frontend (WIP) | React + Custom CSS      | Component-driven UI. Vite + React 19 + TypeScript, TanStack Query, React Router. |
+| Frontend       | React + Custom CSS      | Component-driven UI. Vite + React 19 + TypeScript, TanStack Query, React Router. |
 
 ---
 
@@ -158,6 +157,6 @@ The frontend runs at `http://localhost:5173` and proxies all API calls to the ba
 | Component | Status      |
 |-----------|-------------|
 | Backend   | Complete    |
-| Frontend  | In progress |
+| Frontend  | Complete    |
 | Docker    | In progress |
 | CI/CD     | Planned     |
