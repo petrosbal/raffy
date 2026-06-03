@@ -1,4 +1,4 @@
-import { ArrowUp, Flame } from "lucide-react";
+import { ArrowDown, ArrowUp, Flame } from "lucide-react";
 import type { InsightsResponse } from "../api/types";
 import { BookCover } from "./BookCover";
 
@@ -40,10 +40,12 @@ export function InsightsStrip({ insights, isLoading }: InsightsStripProps) {
         <div className="metric-kicker">Monthly Momentum</div>
         <div className="metric-value accent-value">{monthlyMomentum.toFixed(1)}</div>
         <div className="metric-label">pages / day</div>
-        <div className="momentum-line">
-          <ArrowUp size={12} aria-hidden="true" />
-          <strong>{delta >= 0 ? "+" : ""}{delta.toFixed(1)} p/day</strong>
-          <span>{multiplier ? `${multiplier.toFixed(2)}x` : "new"}</span>
+        <div className={`momentum-line${delta < 0 ? " momentum-negative" : ""}`}>
+          <div className="momentum-delta">
+            {delta >= 0 ? <ArrowUp size={12} aria-hidden="true" /> : <ArrowDown size={12} aria-hidden="true" />}
+            <strong>{delta >= 0 ? "+" : ""}{delta.toFixed(1)} p/day</strong>
+          </div>
+          <span>{multiplier ? `${multiplier.toFixed(2)} ×` : "new"}  vs all-time</span>
         </div>
       </div>
 

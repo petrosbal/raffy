@@ -235,11 +235,21 @@ button {
 
 .momentum-line {
   display: flex;
-  align-items: center;
-  gap: 5px;
+  flex-direction: column;
+  gap: 3px;
   margin-top: 10px;
   color: var(--color-positive);
   font-size: 12px;
+}
+
+.momentum-line.momentum-negative {
+  color: var(--color-error);
+}
+
+.momentum-delta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .genre-card {
