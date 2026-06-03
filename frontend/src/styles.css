@@ -12,12 +12,61 @@
   --shadow-sm: 0 2px 12px rgba(85, 73, 74, 0.1);
   --shadow-md: 0 4px 24px rgba(85, 73, 74, 0.14);
   --shadow-lg: 0 24px 64px rgba(55, 45, 46, 0.28);
+  --genre-color-0: #a58674;
+  --genre-color-1: #8fa87d;
+  --genre-color-2: #b5a898;
+  --genre-color-3: #7d9aa8;
+  --genre-color-4: #a87979;
   color: var(--color-text);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background: var(--color-bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-bg: #1e1a18;
+    --color-surface: #2c2623;
+    --color-surface-soft: #26211f;
+    --color-accent: #b8957f;
+    --color-accent-strong: #cba98e;
+    --color-text: #ede8e0;
+    --color-muted: #9e9089;
+    --color-border: rgba(237, 232, 224, 0.1);
+    --color-error: #d47070;
+    --color-positive: #87b874;
+    --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.25);
+    --shadow-md: 0 4px 24px rgba(0, 0, 0, 0.35);
+    --shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.5);
+    --genre-color-0: #c4a090;
+    --genre-color-1: #a8c496;
+    --genre-color-2: #cec0b4;
+    --genre-color-3: #96b8cc;
+    --genre-color-4: #c49494;
+  }
+}
+
+[data-theme="dark"] {
+  --color-bg: #1e1a18;
+  --color-surface: #2c2623;
+  --color-surface-soft: #26211f;
+  --color-accent: #b8957f;
+  --color-accent-strong: #cba98e;
+  --color-text: #ede8e0;
+  --color-muted: #9e9089;
+  --color-border: rgba(237, 232, 224, 0.1);
+  --color-error: #d47070;
+  --color-positive: #87b874;
+  --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 4px 24px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.5);
+  --genre-color-0: #c4a090;
+  --genre-color-1: #a8c496;
+  --genre-color-2: #cec0b4;
+  --genre-color-3: #96b8cc;
+  --genre-color-4: #c49494;
 }
 
 *,
@@ -380,7 +429,7 @@ button {
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
-  transition: opacity 0.15s ease, transform 0.18s ease, box-shadow 0.18s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease, transform 0.18s ease, box-shadow 0.18s ease;
 }
 
 .primary-button {
@@ -466,7 +515,7 @@ button {
   box-shadow: var(--shadow-sm);
   text-align: left;
   cursor: pointer;
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .book-card:hover {
@@ -1453,4 +1502,99 @@ button {
   .auth-card {
     padding: 30px 24px;
   }
+}
+
+/* ---- Theme toggle icon ---- */
+.theme-icon-wrap {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 17px;
+  height: 17px;
+}
+
+.theme-icon {
+  position: absolute;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.theme-icon--hidden {
+  opacity: 0;
+  transform: rotate(180deg);
+  pointer-events: none;
+}
+
+/* ---- Theme transitions ---- */
+html {
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+body,
+.topbar,
+.search-shell,
+.metric-card,
+.auth-card,
+.session-card,
+.detail-card,
+.detail-sessions article,
+.discover-result,
+.progress-reminder,
+.inline-note,
+.inline-error,
+.journal-empty,
+.empty-column {
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.genre-donut circle {
+  transition: none;
+}
+
+/* ---- Dark mode overrides for hardcoded colors ---- */
+[data-theme="dark"] .topbar {
+  background: linear-gradient(to bottom, #2c2623 0%, #231f1d 100%);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: #4a3f3c;
+}
+
+[data-theme="dark"] .icon-button:hover {
+  background: rgba(237, 232, 224, 0.07);
+}
+
+[data-theme="dark"] .progress-track {
+  background: rgba(237, 232, 224, 0.1);
+}
+
+[data-theme="dark"] .empty-column {
+  border-color: rgba(237, 232, 224, 0.15);
+  background: rgba(44, 38, 35, 0.6);
+}
+
+[data-theme="dark"] .inline-note,
+[data-theme="dark"] .inline-error,
+[data-theme="dark"] .journal-empty {
+  background: rgba(44, 38, 35, 0.8);
+}
+
+[data-theme="dark"] .rating-row button {
+  background: rgba(237, 232, 224, 0.06);
+}
+
+[data-theme="dark"] .segmented-control {
+  background: rgba(237, 232, 224, 0.07);
+}
+
+[data-theme="dark"] .inline-backfill input,
+[data-theme="dark"] .stacked-form input,
+[data-theme="dark"] .stacked-form select,
+[data-theme="dark"] .stacked-form textarea,
+[data-theme="dark"] .auth-form input {
+  border-color: rgba(237, 232, 224, 0.18);
+}
+
+[data-theme="dark"] .toast {
+  background: #2c2623;
+  color: var(--color-text);
 }

@@ -1,6 +1,7 @@
-import { BookOpen, LogOut, Search } from "lucide-react";
+import { BookOpen, LogOut, Moon, Search, Sun } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../auth/useAuth";
+import { useTheme } from "../hooks/useTheme";
 
 type TopBarProps = {
   onSearch: () => void;
@@ -8,6 +9,7 @@ type TopBarProps = {
 
 export function TopBar({ onSearch }: TopBarProps) {
   const { auth, logout } = useAuth();
+  const { theme, toggle } = useTheme();
   const displayName = auth?.displayName || auth?.email || "Reader";
   const initial = displayName.slice(0, 1).toUpperCase();
 
@@ -39,6 +41,12 @@ export function TopBar({ onSearch }: TopBarProps) {
       </button>
 
       <div className="user-cluster">
+        <button className="icon-button" type="button" onClick={toggle} aria-label="Toggle theme">
+          <span className="theme-icon-wrap">
+            <Sun size={17} className={`theme-icon${theme === "dark" ? " theme-icon--hidden" : ""}`} aria-hidden="true" />
+            <Moon size={17} className={`theme-icon${theme === "light" ? " theme-icon--hidden" : ""}`} aria-hidden="true" />
+          </span>
+        </button>
         <BookOpen size={16} aria-hidden="true" />
         <span>{displayName}</span>
         <div className="avatar" aria-hidden="true">

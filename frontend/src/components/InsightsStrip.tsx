@@ -7,8 +7,6 @@ type InsightsStripProps = {
   isLoading?: boolean;
 };
 
-const genreColors = ["#A58674", "#8fa87d", "#b5a898", "#7d9aa8", "#a87979"];
-
 export function InsightsStrip({ insights, isLoading }: InsightsStripProps) {
   const totalMomentum = insights?.totalMomentum ?? 0;
   const monthlyMomentum = insights?.monthlyMomentum ?? 0;
@@ -19,7 +17,7 @@ export function InsightsStrip({ insights, isLoading }: InsightsStripProps) {
   const genres = genreEntries.map(([label, count], index) => ({
     label,
     pct: genreTotal ? Math.round((count / genreTotal) * 100) : 0,
-    color: genreColors[index % genreColors.length],
+    color: `var(--genre-color-${index % 5})`,
   }));
 
   return (
@@ -113,11 +111,10 @@ function GenreDonut({ genres }: GenreDonutProps) {
             cy="28"
             r={radius}
             fill="none"
-            stroke={genre.color}
             strokeWidth="7"
             strokeDasharray={`${dash} ${circumference - dash}`}
             strokeDashoffset={-offset}
-            style={{ transform: "rotate(-90deg)", transformOrigin: "28px 28px" }}
+            style={{ stroke: genre.color, transform: "rotate(-90deg)", transformOrigin: "28px 28px" }}
           />
         );
         offset += dash;
